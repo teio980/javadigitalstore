@@ -1,3 +1,2 @@
 Asus Nitro 5,Laptop,3399.9,5,8,SSD
 ASUS TUF 15 GAMING,Laptop,3299.0,15,8,SSD
-HP EliteBook 840,Laptop,5799.0,2,16,SSD

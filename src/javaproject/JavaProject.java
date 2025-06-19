@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -11,6 +12,13 @@ public class JavaProject extends JFrame implements ActionListener{
     
     private void mainMenu(){
         JPanel mainPanel = new JPanel(new BorderLayout());
+        
+        JLabel titleLabel = new JLabel("Welcome to Lk digital store.");
+        titleLabel.setHorizontalAlignment(JLabel.CENTER); 
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 32)); 
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+
+        mainPanel.add(titleLabel, BorderLayout.NORTH);
         
         ImageIcon imageIcon = new ImageIcon(getClass().getResource("/image/electronics.jpg"));
         JLabel imageLabel = new JLabel(imageIcon);
@@ -39,11 +47,14 @@ public class JavaProject extends JFrame implements ActionListener{
         JButton add_L_Button = new JButton("Add Laptop");
         JButton add_H_Button = new JButton("Add Handphone");
         JButton displayButton = new JButton("Display Product");
+        JButton delete_L_Button = new JButton("Delete Laptop");
+        JButton delete_H_Button = new JButton("Delete Handphone");
         Font buttonFont = new Font("Segoe UI", Font.BOLD, 14);
         add_L_Button.setFont(buttonFont);
         add_H_Button.setFont(buttonFont);
         displayButton.setFont(buttonFont);
-        
+        delete_L_Button.setFont(buttonFont);
+        delete_H_Button.setFont(buttonFont);
         
         add_L_Button.setIcon(new ImageIcon(getClass().getResource("/image/computer_icon.png")));
         add_L_Button.setPreferredSize(new Dimension(208, 52));
@@ -66,10 +77,37 @@ public class JavaProject extends JFrame implements ActionListener{
         displayButton.setOpaque(true);
         displayButton.setBorderPainted(false);
         
-        JPanel southPanel = new JPanel();
-        southPanel.add(add_L_Button);
-        southPanel.add(add_H_Button);
-        southPanel.add(displayButton);
+        JPanel southPanel = new JPanel(new GridLayout(2, 1));
+
+        JPanel firstRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        firstRow.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        firstRow.add(add_L_Button);
+        firstRow.add(add_H_Button);
+        firstRow.add(displayButton);
+
+        
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/image/rubbish.png"));
+        Image scaledImage = originalIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        delete_L_Button.setIcon(new ImageIcon(scaledImage));
+        delete_L_Button.setPreferredSize(new Dimension(208, 52));
+        delete_L_Button.setBackground(new Color(0, 120, 215));
+        delete_L_Button.setForeground(Color.WHITE);
+        delete_L_Button.setOpaque(true);
+        delete_L_Button.setBorderPainted(false);
+        
+        delete_H_Button.setIcon(new ImageIcon(scaledImage));
+        delete_H_Button.setPreferredSize(new Dimension(208, 52));
+        delete_H_Button.setBackground(new Color(0, 120, 215));
+        delete_H_Button.setForeground(Color.WHITE);
+        delete_H_Button.setOpaque(true);
+        delete_H_Button.setBorderPainted(false);
+
+        JPanel secondRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        secondRow.add(delete_L_Button);
+        secondRow.add(delete_H_Button);
+
+        southPanel.add(firstRow);
+        southPanel.add(secondRow);
 
         mainPanel.add(southPanel, BorderLayout.SOUTH);
 
@@ -78,6 +116,8 @@ public class JavaProject extends JFrame implements ActionListener{
         add_L_Button.addActionListener(e -> addLaptop());
         add_H_Button.addActionListener(e -> addHandphone());
         displayButton.addActionListener(e -> displayProduct());
+        delete_L_Button.addActionListener(e -> deleteLaptop());
+        delete_H_Button.addActionListener(e -> deleteHandphone());
     }
     
     @Override
@@ -299,6 +339,136 @@ public class JavaProject extends JFrame implements ActionListener{
     repaint();
     }
     
+    private void deleteLaptop() {
+        String[] columns = {"Name", "Category", "Price(RM)", "Quantity", "RAM(GB)", "Storage Type"};
+        String[][] data = null;
+        String filename = "laptop.txt";
+
+        int totalLines = 0;
+        try (Scanner readFile = new Scanner(new File(filename))) {
+            while (readFile.hasNextLine()) {
+                readFile.nextLine();
+                totalLines++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try (Scanner readFile2 = new Scanner(new File(filename))) {
+            data = new String[totalLines][6];
+            int currentRow = 0;
+            while (readFile2.hasNextLine()) {
+                String line = readFile2.nextLine().trim();
+                if (!line.isEmpty()) {
+                    String[] rowData = line.split(",");
+                    data[currentRow] = rowData;
+                    currentRow++;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        JTable table = new JTable(data, columns);
+        JScrollPane scroll = new JScrollPane(table);
+        scroll.setPreferredSize(new Dimension(700, 200));
+
+        int option = JOptionPane.showConfirmDialog(
+            this,
+            scroll,
+            "Select Laptop to Delete (click a row)",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (option == JOptionPane.OK_OPTION) {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Please select a laptop to delete.");
+                return;
+            }
+
+            int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to delete Laptop #" + (selectedRow + 1) + "?",
+                "Confirm Delete",
+                JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                Laptop L = new Laptop();
+                L.delete(selectedRow + 1);
+                JOptionPane.showMessageDialog(this, "Laptop deleted successfully.");
+            }
+        }
+    }
+     
+    private void deleteHandphone() {
+        String[] columns = {"Name", "Category", "Price(RM)", "Quantity", "RAM(GB)", "Storage Type"};
+        String[][] data = null;
+        String filename = "handphone.txt";
+
+        int totalLines = 0;
+        try (Scanner readFile = new Scanner(new File(filename))) {
+            while (readFile.hasNextLine()) {
+                readFile.nextLine();
+                totalLines++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try (Scanner readFile2 = new Scanner(new File(filename))) {
+            data = new String[totalLines][6];
+            int currentRow = 0;
+            while (readFile2.hasNextLine()) {
+                String line = readFile2.nextLine().trim();
+                if (!line.isEmpty()) {
+                    String[] rowData = line.split(",");
+                    data[currentRow] = rowData;
+                    currentRow++;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        JTable table = new JTable(data, columns);
+        JScrollPane scroll = new JScrollPane(table);
+        scroll.setPreferredSize(new Dimension(700, 200));
+
+        int option = JOptionPane.showConfirmDialog(
+            this,
+            scroll,
+            "Select Handphone to Delete (click a row)",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (option == JOptionPane.OK_OPTION) {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Please select a handphone to delete.");
+                return;
+            }
+
+            int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to delete Handphone #" + (selectedRow + 1) + "?",
+                "Confirm Delete",
+                JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                Handphone H = new Handphone();
+                H.delete(selectedRow + 1);
+                JOptionPane.showMessageDialog(this, "Handphone deleted successfully.");
+            }
+        }
+    }
+
+
+    
     public static void main(String[] args) {
             JavaProject frame = new JavaProject();
             frame.setSize(720,540);
@@ -306,8 +476,8 @@ public class JavaProject extends JFrame implements ActionListener{
             frame.mainMenu();
             frame.setVisible(true);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        }
     }
+}
 
 class Product {
     protected String name;
@@ -404,6 +574,36 @@ class Laptop extends Product{
         JScroll = new JScrollPane(table);
         return JScroll;
     }
+
+    public void delete(int number) {
+        ArrayList<String> lines = new ArrayList<>();
+        try (Scanner reader = new Scanner(new File(filename))) {
+            while (reader.hasNextLine()) {
+                lines.add(reader.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        if (number < 1 || number > lines.size()) {
+            JOptionPane.showMessageDialog(null, "Invalid number to delete.");
+            return;
+        }
+
+        lines.remove(number - 1);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (String line : lines) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
 
 class Handphone extends Product{
@@ -486,4 +686,33 @@ class Handphone extends Product{
         JScroll = new JScrollPane(table);
         return JScroll;
     }
+
+    public void delete(int number) {
+        ArrayList<String> lines = new ArrayList<>();
+        try (Scanner reader = new Scanner(new File(filename))) {
+            while (reader.hasNextLine()) {
+                lines.add(reader.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        if (number < 1 || number > lines.size()) {
+            JOptionPane.showMessageDialog(null, "Invalid number to delete.");
+            return;
+        }
+
+        lines.remove(number - 1);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (String line : lines) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
