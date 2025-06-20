@@ -1,2 +1,1 @@
-Asus Nitro 5,Laptop,3399.9,5,8,SSD
-ASUS TUF 15 GAMING,Laptop,3299.0,15,8,SSD
+sad,Laptop,999.0,44,64,SSD

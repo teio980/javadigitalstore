@@ -341,40 +341,40 @@ public class JavaProject extends JFrame implements ActionListener{
     }
     
     private void deleteLaptop() {
-        String[] columns = {"Name", "Category", "Price(RM)", "Quantity", "RAM(GB)", "Storage Type"};
-        String[][] data = null;
-        String filename = "laptop.txt";
+        String[] headers = {"Name", "Category", "Price(RM)", "Quantity", "RAM(GB)", "Storage Type"};
+        String[][] rows = null;
+        String file = "laptop.txt";
 
-        int totalLines = 0;
-        try (Scanner readFile = new Scanner(new File(filename))) {
-            while (readFile.hasNextLine()) {
-                readFile.nextLine();
-                totalLines++;
+        int lineCount = 0;
+        try (Scanner reader = new Scanner(new File(file))) {
+            while (reader.hasNextLine()) {
+                reader.nextLine();
+                lineCount++;
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found: " + file);
         }
 
-        try (Scanner readFile2 = new Scanner(new File(filename))) {
-            data = new String[totalLines][6];
-            int currentRow = 0;
-            while (readFile2.hasNextLine()) {
-                String line = readFile2.nextLine().trim();
+        try (Scanner reader2 = new Scanner(new File(file))) {
+            rows = new String[lineCount][6];
+            int i = 0;
+            while (reader2.hasNextLine()) {
+                String line = reader2.nextLine().trim();
                 if (!line.isEmpty()) {
-                    String[] rowData = line.split(",");
-                    data[currentRow] = rowData;
-                    currentRow++;
+                    String[] parts = line.split(",");
+                    rows[i] = parts;
+                    i++;
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found: " + file);
         }
 
-        JTable table = new JTable(data, columns);
+        JTable table = new JTable(rows, headers);
         JScrollPane scroll = new JScrollPane(table);
         scroll.setPreferredSize(new Dimension(700, 200));
 
-        int option = JOptionPane.showConfirmDialog(
+        int choice = JOptionPane.showConfirmDialog(
             this,
             scroll,
             "Select Laptop to Delete (click a row)",
@@ -382,7 +382,7 @@ public class JavaProject extends JFrame implements ActionListener{
             JOptionPane.PLAIN_MESSAGE
         );
 
-        if (option == JOptionPane.OK_OPTION) {
+        if (choice == JOptionPane.OK_OPTION) {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
                 JOptionPane.showMessageDialog(this, "Please select a laptop to delete.");
@@ -393,52 +393,53 @@ public class JavaProject extends JFrame implements ActionListener{
                 this,
                 "Are you sure you want to delete Laptop #" + (selectedRow + 1) + "?",
                 "Confirm Delete",
-                JOptionPane.YES_NO_OPTION
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.PLAIN_MESSAGE
             );
 
             if (confirm == JOptionPane.YES_OPTION) {
-                Laptop L = new Laptop();
-                L.delete(selectedRow + 1);
+                Laptop laptop = new Laptop();
+                laptop.delete(selectedRow + 1);
                 JOptionPane.showMessageDialog(this, "Laptop deleted successfully.");
             }
         }
     }
-     
-    private void deleteHandphone() {
-        String[] columns = {"Name", "Category", "Price(RM)", "Quantity", "RAM(GB)", "Storage Type"};
-        String[][] data = null;
-        String filename = "handphone.txt";
 
-        int totalLines = 0;
-        try (Scanner readFile = new Scanner(new File(filename))) {
-            while (readFile.hasNextLine()) {
-                readFile.nextLine();
-                totalLines++;
+    private void deleteHandphone() {
+        String[] headers = {"Name", "Category", "Price(RM)", "Quantity", "RAM(GB)", "Storage Type"};
+        String[][] rows = null;
+        String file = "handphone.txt";
+
+        int lineCount = 0;
+        try (Scanner reader = new Scanner(new File(file))) {
+            while (reader.hasNextLine()) {
+                reader.nextLine();
+                lineCount++;
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found: " + file);
         }
 
-        try (Scanner readFile2 = new Scanner(new File(filename))) {
-            data = new String[totalLines][6];
-            int currentRow = 0;
-            while (readFile2.hasNextLine()) {
-                String line = readFile2.nextLine().trim();
+        try (Scanner reader2 = new Scanner(new File(file))) {
+            rows = new String[lineCount][6];
+            int i = 0;
+            while (reader2.hasNextLine()) {
+                String line = reader2.nextLine().trim();
                 if (!line.isEmpty()) {
-                    String[] rowData = line.split(",");
-                    data[currentRow] = rowData;
-                    currentRow++;
+                    String[] parts = line.split(",");
+                    rows[i] = parts;
+                    i++;
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found: " + file);
         }
 
-        JTable table = new JTable(data, columns);
+        JTable table = new JTable(rows, headers);
         JScrollPane scroll = new JScrollPane(table);
         scroll.setPreferredSize(new Dimension(700, 200));
 
-        int option = JOptionPane.showConfirmDialog(
+        int choice = JOptionPane.showConfirmDialog(
             this,
             scroll,
             "Select Handphone to Delete (click a row)",
@@ -446,7 +447,7 @@ public class JavaProject extends JFrame implements ActionListener{
             JOptionPane.PLAIN_MESSAGE
         );
 
-        if (option == JOptionPane.OK_OPTION) {
+        if (choice == JOptionPane.OK_OPTION) {
             int selectedRow = table.getSelectedRow();
             if (selectedRow == -1) {
                 JOptionPane.showMessageDialog(this, "Please select a handphone to delete.");
@@ -457,19 +458,18 @@ public class JavaProject extends JFrame implements ActionListener{
                 this,
                 "Are you sure you want to delete Handphone #" + (selectedRow + 1) + "?",
                 "Confirm Delete",
-                JOptionPane.YES_NO_OPTION
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.PLAIN_MESSAGE
             );
 
             if (confirm == JOptionPane.YES_OPTION) {
-                Handphone H = new Handphone();
-                H.delete(selectedRow + 1);
+                Handphone phone = new Handphone();
+                phone.delete(selectedRow + 1);
                 JOptionPane.showMessageDialog(this, "Handphone deleted successfully.");
             }
         }
     }
 
-
-    
     public static void main(String[] args) {
             JavaProject frame = new JavaProject();
             frame.setSize(720,540);
@@ -576,34 +576,32 @@ class Laptop extends Product{
         return JScroll;
     }
 
-    public void delete(int number) {
-        ArrayList<String> lines = new ArrayList<>();
-        try (Scanner reader = new Scanner(new File(filename))) {
-            while (reader.hasNextLine()) {
-                lines.add(reader.nextLine());
+    public void delete(int num) {
+        ArrayList<String> list = new ArrayList<>();
+        try (Scanner scan = new Scanner(new File(filename))) {
+            while (scan.hasNextLine()) {
+                list.add(scan.nextLine());
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found: " + filename);
             return;
         }
 
-        if (number < 1 || number > lines.size()) {
+        if (num < 1 || num > list.size()) {
             JOptionPane.showMessageDialog(null, "Invalid number to delete.");
             return;
         }
 
-        lines.remove(number - 1);
+        list.remove(num - 1);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            for (String line : lines) {
-                writer.write(line);
-                writer.newLine();
+        try (PrintWriter out = new PrintWriter(filename)) {
+            for (String line : list) {
+                out.println(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error writing to file: " + filename);
         }
     }
-
 
 }
 
@@ -688,32 +686,34 @@ class Handphone extends Product{
         return JScroll;
     }
 
-    public void delete(int number) {
-        ArrayList<String> lines = new ArrayList<>();
-        try (Scanner reader = new Scanner(new File(filename))) {
-            while (reader.hasNextLine()) {
-                lines.add(reader.nextLine());
+    public void delete(int num) {
+        ArrayList<String> list = new ArrayList<>();
+        try (Scanner scan = new Scanner(new File(filename))) {
+            while (scan.hasNextLine()) {
+                list.add(scan.nextLine());
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found: " + filename);
             return;
         }
 
-        if (number < 1 || number > lines.size()) {
+        if (num < 1 || num > list.size()) {
             JOptionPane.showMessageDialog(null, "Invalid number to delete.");
             return;
         }
 
-        lines.remove(number - 1);
+        list.remove(num - 1);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            for (String line : lines) {
-                writer.write(line);
-                writer.newLine();
+        try (PrintWriter out = new PrintWriter(filename)) {
+            for (String line : list) {
+                out.println(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Cannot write file: " + filename);
         }
+
     }
+
+
 
 }
