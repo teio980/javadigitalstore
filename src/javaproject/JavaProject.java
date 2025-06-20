@@ -330,6 +330,7 @@ public class JavaProject extends JFrame implements ActionListener{
         repaint();
     });
     
+    backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     displayPanel.add(backButton);
     
     JScrollPane mainScroll = new JScrollPane(displayPanel);
