@@ -1,5 +1,4 @@
 package javaproject;
-
 import javax.swing.*; 
 import java.awt.*;
 import java.awt.event.*;
@@ -44,31 +43,31 @@ public class JavaProject extends JFrame implements ActionListener{
         
         setJMenuBar(menuBar);
         
-        JButton add_L_Button = new JButton("Add Laptop");
-        JButton add_H_Button = new JButton("Add Handphone");
+        JButton addLaptopButton = new JButton("Add Laptop");
+        JButton addHandphoneButton = new JButton("Add Handphone");
         JButton displayButton = new JButton("Display Product");
-        JButton delete_L_Button = new JButton("Delete Laptop");
-        JButton delete_H_Button = new JButton("Delete Handphone");
+        JButton deleteLaptopButton = new JButton("Delete Laptop");
+        JButton deleteHandphoneButton = new JButton("Delete Handphone");
         Font buttonFont = new Font("Segoe UI", Font.BOLD, 14);
-        add_L_Button.setFont(buttonFont);
-        add_H_Button.setFont(buttonFont);
+        addLaptopButton.setFont(buttonFont);
+        addHandphoneButton.setFont(buttonFont);
         displayButton.setFont(buttonFont);
-        delete_L_Button.setFont(buttonFont);
-        delete_H_Button.setFont(buttonFont);
+        deleteLaptopButton.setFont(buttonFont);
+        deleteHandphoneButton.setFont(buttonFont);
         
-        add_L_Button.setIcon(new ImageIcon(getClass().getResource("/image/computer_icon.png")));
-        add_L_Button.setPreferredSize(new Dimension(208, 52));
-        add_L_Button.setBackground(new Color(0, 120, 215));
-        add_L_Button.setForeground(Color.WHITE);
-        add_L_Button.setOpaque(true);
-        add_L_Button.setBorderPainted(false);
+        addLaptopButton.setIcon(new ImageIcon(getClass().getResource("/image/computer_icon.png")));
+        addLaptopButton.setPreferredSize(new Dimension(208, 52));
+        addLaptopButton.setBackground(new Color(0, 120, 215));
+        addLaptopButton.setForeground(Color.WHITE);
+        addLaptopButton.setOpaque(true);
+        addLaptopButton.setBorderPainted(false);
         
-        add_H_Button.setIcon(new ImageIcon(getClass().getResource("/image/phone_android_icon.png")));
-        add_H_Button.setPreferredSize(new Dimension(208, 52));
-        add_H_Button.setBackground(new Color(0, 120, 215));
-        add_H_Button.setForeground(Color.WHITE);
-        add_H_Button.setOpaque(true);
-        add_H_Button.setBorderPainted(false);
+        addHandphoneButton.setIcon(new ImageIcon(getClass().getResource("/image/phone_android_icon.png")));
+        addHandphoneButton.setPreferredSize(new Dimension(208, 52));
+        addHandphoneButton.setBackground(new Color(0, 120, 215));
+        addHandphoneButton.setForeground(Color.WHITE);
+        addHandphoneButton.setOpaque(true);
+        addHandphoneButton.setBorderPainted(false);
         
         displayButton.setIcon(new ImageIcon(getClass().getResource("/image/table_view_icon.png")));
         displayButton.setPreferredSize(new Dimension(208, 52));
@@ -81,30 +80,30 @@ public class JavaProject extends JFrame implements ActionListener{
 
         JPanel firstRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         firstRow.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        firstRow.add(add_L_Button);
-        firstRow.add(add_H_Button);
+        firstRow.add(addLaptopButton);
+        firstRow.add(addHandphoneButton);
         firstRow.add(displayButton);
 
         
         ImageIcon originalIcon = new ImageIcon(getClass().getResource("/image/rubbish.png"));
         Image scaledImage = originalIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        delete_L_Button.setIcon(new ImageIcon(scaledImage));
-        delete_L_Button.setPreferredSize(new Dimension(208, 52));
-        delete_L_Button.setBackground(new Color(0, 120, 215));
-        delete_L_Button.setForeground(Color.WHITE);
-        delete_L_Button.setOpaque(true);
-        delete_L_Button.setBorderPainted(false);
+        deleteLaptopButton.setIcon(new ImageIcon(scaledImage));
+        deleteLaptopButton.setPreferredSize(new Dimension(208, 52));
+        deleteLaptopButton.setBackground(new Color(0, 120, 215));
+        deleteLaptopButton.setForeground(Color.WHITE);
+        deleteLaptopButton.setOpaque(true);
+        deleteLaptopButton.setBorderPainted(false);
         
-        delete_H_Button.setIcon(new ImageIcon(scaledImage));
-        delete_H_Button.setPreferredSize(new Dimension(208, 52));
-        delete_H_Button.setBackground(new Color(0, 120, 215));
-        delete_H_Button.setForeground(Color.WHITE);
-        delete_H_Button.setOpaque(true);
-        delete_H_Button.setBorderPainted(false);
+        deleteHandphoneButton.setIcon(new ImageIcon(scaledImage));
+        deleteHandphoneButton.setPreferredSize(new Dimension(208, 52));
+        deleteHandphoneButton.setBackground(new Color(0, 120, 215));
+        deleteHandphoneButton.setForeground(Color.WHITE);
+        deleteHandphoneButton.setOpaque(true);
+        deleteHandphoneButton.setBorderPainted(false);
 
         JPanel secondRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        secondRow.add(delete_L_Button);
-        secondRow.add(delete_H_Button);
+        secondRow.add(deleteLaptopButton);
+        secondRow.add(deleteHandphoneButton);
 
         southPanel.add(firstRow);
         southPanel.add(secondRow);
@@ -113,11 +112,11 @@ public class JavaProject extends JFrame implements ActionListener{
 
         add(mainPanel);
 
-        add_L_Button.addActionListener(e -> addLaptop());
-        add_H_Button.addActionListener(e -> addHandphone());
+        addLaptopButton.addActionListener(e -> addLaptop());
+        addHandphoneButton.addActionListener(e -> addHandphone());
         displayButton.addActionListener(e -> displayProduct());
-        delete_L_Button.addActionListener(e -> deleteLaptop());
-        delete_H_Button.addActionListener(e -> deleteHandphone());
+        deleteLaptopButton.addActionListener(e -> deleteLaptop());
+        deleteHandphoneButton.addActionListener(e -> deleteHandphone());
     }
     
     @Override
@@ -125,23 +124,23 @@ public class JavaProject extends JFrame implements ActionListener{
         String command = e.getActionCommand();
 
         switch(command) {
-            case "Back":
+            case "Back" -> {
                 getContentPane().removeAll();
                 mainMenu();
                 revalidate();
                 repaint();
-                break;
-            case "Exit":
+            }
+            case "Exit" -> {
                 int confirm = JOptionPane.showConfirmDialog(
-                    this, 
-                    "Are you sure you want to exit?", 
-                    "Exit Confirmation", 
-                    JOptionPane.YES_NO_OPTION
+                        this,
+                        "Are you sure you want to exit?",
+                        "Exit Confirmation",
+                        JOptionPane.YES_NO_OPTION
                 );
                 if (confirm == JOptionPane.YES_OPTION) {
                     System.exit(0);
                 }
-                break;
+            }
         }
     }
     
@@ -523,8 +522,7 @@ class Laptop extends Product{
             
         }
         catch(IOException e){
-            System.out.println("Error :");
-            e.printStackTrace();
+            System.out.println("Error :"+e.getMessage());
             return false;
         }
     }
@@ -548,8 +546,7 @@ class Laptop extends Product{
                 JOptionPane.showMessageDialog(null, "File is empty!");
             }
         }catch(FileNotFoundException e){
-            System.out.println("Error :");
-            e.printStackTrace();
+            System.out.println("Error :"+e.getMessage());
         }
         
         try(Scanner readFile2 = new Scanner(new File(filename))){
@@ -567,8 +564,7 @@ class Laptop extends Product{
 
             }
         }catch(FileNotFoundException e){
-            System.out.println("Error :");
-            e.printStackTrace();
+            System.out.println("Error :"+e.getMessage());
         }
         
         table = new JTable(data, column);
@@ -584,6 +580,7 @@ class Laptop extends Product{
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + filename);
+            System.out.println("Error :"+e.getMessage());
             return;
         }
 
@@ -600,6 +597,7 @@ class Laptop extends Product{
             }
         } catch (IOException e) {
             System.out.println("Error writing to file: " + filename);
+            System.out.println("Error :"+e.getMessage());
         }
     }
 
@@ -633,8 +631,7 @@ class Handphone extends Product{
             return true;
         }
         catch(IOException e){
-            System.out.println("Error :");
-            e.printStackTrace();
+            System.out.println("Error :"+e.getMessage());
             return false;
         }
     }
@@ -658,8 +655,7 @@ class Handphone extends Product{
                 JOptionPane.showMessageDialog(null, "File is empty!");
             }
         }catch(FileNotFoundException e){
-            System.out.println("Error :");
-            e.printStackTrace();
+            System.out.println("Error :"+e.getMessage());
         }
         
         try(Scanner readFile2 = new Scanner(new File(filename))){
@@ -677,8 +673,7 @@ class Handphone extends Product{
 
             }
         }catch(FileNotFoundException e){
-            System.out.println("Error :");
-            e.printStackTrace();
+            System.out.println("Error :"+e.getMessage());
         }
         
         table = new JTable(data, column);
@@ -694,6 +689,7 @@ class Handphone extends Product{
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + filename);
+            System.out.println("Error :"+e.getMessage());
             return;
         }
 
@@ -710,10 +706,8 @@ class Handphone extends Product{
             }
         } catch (IOException e) {
             System.out.println("Cannot write file: " + filename);
+            System.out.println("Error :"+e.getMessage());
         }
 
     }
-
-
-
 }
