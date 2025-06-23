@@ -145,156 +145,135 @@ public class JavaProject extends JFrame implements ActionListener{
     }
     
     private void addLaptop() {
-        // clear the screen
         getContentPane().removeAll();
-        
-        JPanel addLaptopPanel = new JPanel();
-        addLaptopPanel.setLayout(new GridLayout(6,2,10,10));
-        
-        JTextField nameField = new JTextField();
-        JTextField priceField = new JTextField();
-        JTextField quantityField = new JTextField();
-        
-        //RAM combobox
-        String[] ramOptions = {"4", "8", "16", "32", "64"};
-        JComboBox ramComboBox = new JComboBox(ramOptions);
-        
-        //storage radio 
-        JPanel storagePanel = new JPanel();
-        JRadioButton ssdButton, hddButton;
-        ssdButton = new JRadioButton("SSD");
-        hddButton = new JRadioButton("HDD");
-        ButtonGroup storageBG = new ButtonGroup();
-        storageBG.add(ssdButton);
-        storageBG.add(hddButton);
-        storagePanel.add(ssdButton);
-        storagePanel.add(hddButton);
-        ssdButton.setSelected(true);
-        
-        JButton submitButton = new JButton("Submit");
-        JButton backButton = new JButton("Back to Main Menu");
-        
-        addLaptopPanel.add(new JLabel("Laptop Name:"));
-        addLaptopPanel.add(nameField);
-        addLaptopPanel.add(new JLabel("Price:"));
-        addLaptopPanel.add(priceField);
-        addLaptopPanel.add(new JLabel("Quantity:"));
-        addLaptopPanel.add(quantityField);
-        addLaptopPanel.add(new JLabel("RAM (GB):"));
-        addLaptopPanel.add(ramComboBox);
-        addLaptopPanel.add(new JLabel("Storage Type:"));
-        addLaptopPanel.add(storagePanel);
-        addLaptopPanel.add(submitButton);
-        addLaptopPanel.add(backButton);
-        
-        getContentPane().add(addLaptopPanel);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(6, 2, 10, 10));
+
+        JTextField name = new JTextField();
+        JTextField price = new JTextField();
+        JTextField qty = new JTextField();
+
+        String[] ramList = {"4", "8", "16", "32", "64"};
+        JComboBox ram = new JComboBox(ramList);
+
+        JPanel storage = new JPanel();
+        JRadioButton ssd = new JRadioButton("SSD");
+        JRadioButton hdd = new JRadioButton("HDD");
+        ButtonGroup storageGroup = new ButtonGroup();
+        storageGroup.add(ssd);
+        storageGroup.add(hdd);       
+        storage.add(ssd);
+        storage.add(hdd);
+        ssd.setSelected(true);
+
+        JButton submit = new JButton("Submit");
+        JButton back = new JButton("Back to Main Menu");
+
+        panel.add(new JLabel("Laptop Name:"));
+        panel.add(name);
+        panel.add(new JLabel("Price:"));
+        panel.add(price);
+        panel.add(new JLabel("Quantity:"));
+        panel.add(qty);
+        panel.add(new JLabel("RAM (GB):"));
+        panel.add(ram);
+        panel.add(new JLabel("Storage Type:"));
+        panel.add(storage);
+        panel.add(submit);
+        panel.add(back);
+
+        getContentPane().add(panel);
         revalidate();
         repaint();
-        
-        submitButton.addActionListener(e -> {
-            String name = nameField.getText();
-            double price = Double.parseDouble(priceField.getText().trim());
-            int quantity = Integer.parseInt(quantityField.getText().trim());
-            int ram = Integer.parseInt((String) ramComboBox.getSelectedItem());
-            String storage = null;
-            
-            if (ssdButton.isSelected()) {
-                storage = "SSD";
-            } else if (hddButton.isSelected()) {
-                storage = "HDD";
-            }
-            
-            Laptop laptop = new Laptop(name, "Laptop", price, quantity, ram, storage);
-            if (laptop.save()) {
+
+        submit.addActionListener(e -> {
+            String n = name.getText();
+            double p = Double.parseDouble(price.getText().trim());
+            int q = Integer.parseInt(qty.getText().trim());
+            int r = Integer.parseInt((String) ram.getSelectedItem());
+            String s = ssd.isSelected() ? "SSD" : "HDD";
+
+            Laptop l = new Laptop(n, "Laptop", p, q, r, s);
+            if (l.save()) {
                 JOptionPane.showMessageDialog(this, "Laptop added successfully!");
             } else {
                 JOptionPane.showMessageDialog(this, "Failed to save laptop.");
             }
         });
-        
-        backButton.addActionListener(e -> {
-        getContentPane().removeAll();
-        mainMenu();
-        revalidate();
-        repaint();
+
+        back.addActionListener(e -> {
+            getContentPane().removeAll();
+            mainMenu();
+            revalidate();
+            repaint();
         });
     }
 
     private void addHandphone() {
-        // clear the screen
         getContentPane().removeAll();
-        
-        JPanel addHandphonePanel = new JPanel();
-        addHandphonePanel.setLayout(new GridLayout(6,2,10,10));
-        
-        JTextField nameField = new JTextField();
-        JTextField priceField = new JTextField();
-        JTextField quantityField = new JTextField();
-       
-        //OS radio 
-        JPanel OS_Panel = new JPanel();
-        JRadioButton ios_Button, android_Button;
-        ios_Button = new JRadioButton("iOS");
-        android_Button = new JRadioButton("Android");
-        ButtonGroup OS_BG = new ButtonGroup();
-        OS_BG.add(ios_Button);
-        OS_BG.add(android_Button);
-        OS_Panel.add(ios_Button);
-        OS_Panel.add(android_Button);
-        ios_Button.setSelected(true);
-        
-        JTextField screenSizeField = new JTextField();
-        
-        JButton submitButton = new JButton("Submit");
-        JButton backButton = new JButton("Back to Main Menu");
-        
-        addHandphonePanel.add(new JLabel("Handphone Name:"));
-        addHandphonePanel.add(nameField);
-        addHandphonePanel.add(new JLabel("Price:"));
-        addHandphonePanel.add(priceField);
-        addHandphonePanel.add(new JLabel("Quantity:"));
-        addHandphonePanel.add(quantityField);
-        addHandphonePanel.add(new JLabel("Operating System:"));
-        addHandphonePanel.add(OS_Panel);
-        addHandphonePanel.add(new JLabel("Enter Screen Size (inches):"));
-        addHandphonePanel.add(screenSizeField);
-        
-        addHandphonePanel.add(submitButton);
-        addHandphonePanel.add(backButton);
-        
-        getContentPane().add(addHandphonePanel);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(6, 2, 10, 10));
+
+        JTextField name = new JTextField();
+        JTextField price = new JTextField();
+        JTextField qty = new JTextField();
+        JTextField screen = new JTextField();
+
+        JPanel osPanel = new JPanel();
+        JRadioButton ios = new JRadioButton("iOS");
+        JRadioButton android = new JRadioButton("Android");
+        ButtonGroup osGroup = new ButtonGroup();
+        osGroup.add(ios);
+        osGroup.add(android);
+        osPanel.add(ios);
+        osPanel.add(android);
+        ios.setSelected(true);
+
+        JButton submit = new JButton("Submit");
+        JButton back = new JButton("Back to Main Menu");
+
+        panel.add(new JLabel("Handphone Name:"));
+        panel.add(name);
+        panel.add(new JLabel("Price:"));
+        panel.add(price);
+        panel.add(new JLabel("Quantity:"));
+        panel.add(qty);
+        panel.add(new JLabel("Operating System:"));
+        panel.add(osPanel);
+        panel.add(new JLabel("Enter Screen Size (inches):"));
+        panel.add(screen);
+        panel.add(submit);
+        panel.add(back);
+
+        getContentPane().add(panel);
         revalidate();
         repaint();
-        
-        submitButton.addActionListener(e -> {
-            String name = nameField.getText();
-            double price = Double.parseDouble(priceField.getText().trim());
-            int quantity = Integer.parseInt(quantityField.getText().trim());
-            double screenSize = Double.parseDouble(screenSizeField.getText().trim());
-            String os = null;
-            
-            if (ios_Button.isSelected()) {
-                os = "iOS";
-            } else if (android_Button.isSelected()) {
-                os = "Android";
-            }
-            
-            Handphone phone = new Handphone(name, "Handphone", price, quantity, os, screenSize);
-            if (phone.save()) {
+
+        submit.addActionListener(e -> {
+            String n = name.getText();
+            double p = Double.parseDouble(price.getText().trim());
+            int q = Integer.parseInt(qty.getText().trim());
+            double s = Double.parseDouble(screen.getText().trim());
+            String os = ios.isSelected() ? "iOS" : "Android";
+
+            Handphone hp = new Handphone(n, "Handphone", p, q, os, s);
+            if (hp.save()) {
                 JOptionPane.showMessageDialog(this, "Handphone added successfully!");
             } else {
                 JOptionPane.showMessageDialog(this, "Failed to save handphone.");
             }
         });
-        
-        backButton.addActionListener(e -> {
-        getContentPane().removeAll();
-        mainMenu();
-        revalidate();
-        repaint();
+
+        back.addActionListener(e -> {
+            getContentPane().removeAll();
+            mainMenu();
+            revalidate();
+            repaint();
         });
     }
-    
+
     private void displayProduct(){
     Handphone H = new Handphone();
     Laptop L = new Laptop();
