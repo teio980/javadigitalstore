@@ -1,3 +1,2 @@
 sad,Laptop,999.0,44,64,SSD
 nitro,Laptop,999.0,111,4,HDD
-dsgf,Laptop,2132.0,999,32,SSD
